@@ -2,6 +2,7 @@
 #include "hip/hip_runtime.h"
 #include "hip/hip_runtime_api.h"
 #include <rocblas.h>
+#include <roctx.h>
 
 rocblas_operation transa = rocblas_operation_none;
 rocblas_operation transb = rocblas_operation_transpose;
@@ -95,7 +96,8 @@ int main() {
         }
     }
 
-	
+    roctxMark("before hipMemcpy");
+    roctxRangePush("hipMemcpy");	
     // copy from Host to device start
     if (da) {
         if (hipMemcpy(da, ha, sizeof(float) * size_a, hipMemcpyHostToDevice)
@@ -120,7 +122,9 @@ int main() {
             return -1;
         }
     }
-	// copy from Host to device end
+    roctxMark("after hipMemcpy");
+    roctxRangePop();
+
 
     float alpha = 1.1, beta = 0.9;
 	

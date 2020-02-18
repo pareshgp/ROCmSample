@@ -4,8 +4,8 @@ ifeq (,$(HIP_PATH))
 endif
 HIPCC=$(HIP_PATH)/bin/hipcc -std=c++11 
 HIP_PLATFORM=$(shell $(HIP_PATH)/bin/hipconfig --compiler)
-INC=-I/opt/rocm/rocblas/include
-LIB=-L/opt/rocm/rocblas/lib -l rocblas
+INC=-I/opt/rocm/rocblas/include -I/opt/rocm/roctracer/include/
+LIB=-L/opt/rocm/rocblas/lib -l rocblas -L/opt/rocm/roctracer/lib -l roctracer64
 
 all: rocblas_sgemm
 
