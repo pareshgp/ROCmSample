@@ -7,10 +7,17 @@
 rocblas_operation transa = rocblas_operation_none;
 rocblas_operation transb = rocblas_operation_transpose;
 
+float fast_pseudo_rand(u_long *nextr) {
+    *nextr = *nextr * 1103515245 + 12345;
+    return static_cast<float>(static_cast<uint32_t>
+                    ((*nextr / 65536) % 320000)) / 0.1234;
+}
+
+
 int main() {
 
-    // GPU device index
-    int gpu_device_index;
+    // GPU device index, i is iterator
+    int gpu_device_index, i;
     // matrix size m
     rocblas_int m;
     // matrix size n
@@ -38,6 +45,8 @@ int main() {
     // pointer to host memory
     float *hc = NULL;
 
+    uint64_t nextr = time(NULL);
+
 	// HIP API stream - used to query for GEMM completion
     hipStream_t hip_stream;
     // rocBlas related handle
@@ -63,6 +72,34 @@ int main() {
         return -1;
     }
 
+    gpu_device_index = 0;
+    // select GPU device & allocate memory
+    if (hipSetDevice(gpu_device_index) != hipSuccess) {
+        // cannot select the given GPU device
+		std::cout << "cannot select the given GPU device ";
+        return -1;
+    } else {
+        if (rocblas_create_handle(&blas_handle) == rocblas_status_success) {
+            is_handle_init = true;
+            /*if (rocblas_get_stream(blas_handle, &hip_stream)
+                 != rocblas_status_success) {
+			    std::cout << "rocblas hip_stream get failed" ;
+                return -1;
+            }*/
+        } else {
+			std::cout << "rocblas_create_handle failed" ;
+            return -1;
+        }
+    }
+
+    for (i = 0; i < size_a; ++i)
+        ha[i] = fast_pseudo_rand(&nextr);
+
+    for (i = 0; i < size_b; ++i)
+        hb[i] = fast_pseudo_rand(&nextr);
+
+    for (int i = 0; i < size_c; ++i)
+        hc[i] = fast_pseudo_rand(&nextr);
 	
 	// allocates memory (for matrix multiplication) on the selected GPU
     if (hipMalloc(&da, size_a * sizeof(float)) != hipSuccess) {
@@ -78,23 +115,6 @@ int main() {
         return -1;
 	}
 
-    // select GPU device & allocate memory
-    if (hipSetDevice(gpu_device_index) != hipSuccess) {
-        // cannot select the given GPU device
-		std::cout << "cannot select the given GPU device ";
-        return -1;
-    } else {
-        if (rocblas_create_handle(&blas_handle) == rocblas_status_success) {
-            is_handle_init = true;
-            if (rocblas_get_stream(blas_handle, &hip_stream)
-                 != rocblas_status_success)
-			std::cout << "rocblas hip_stream get failed" ;
-                return -1;		
-        } else {
-			std::cout << "rocblas_create_handle failed" ;
-            return -1;
-        }
-    }
 
     roctxMark("before hipMemcpy");
     roctxRangePush("hipMemcpy");	
@@ -105,6 +125,7 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
+        std::cout << "hipMemcpyHostToDevice done 1" ;
     }
 
     if (db) {
@@ -113,6 +134,7 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
+        std::cout << "hipMemcpyHostToDevice done 2" ;
     }
 
     if (dc) {
@@ -121,21 +143,26 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
+        std::cout << "hipMemcpyHostToDevice done 3" ;
     }
     roctxMark("after hipMemcpy");
     roctxRangePop();
 
-
+    int numRepeats = 10;
     float alpha = 1.1, beta = 0.9;
-	
-    if (rocblas_sgemm(blas_handle, transa, transb,
+    for (int i = 0; i < numRepeats; ++i) {	
+        rocblas_status stat = rocblas_sgemm(blas_handle, transa, transb,
                  m, n, k,
                  &alpha, da, m,
                  db, n, &beta,
-                 dc, m) != rocblas_status_success) {
-        std::cout << "hipMemcpyHostToDevice failed" ;
-        return -1;
-    }
+                 dc, m);
+        if (stat != rocblas_status_success){
+            std::cout << "rocblas_sgemm failed" ;
+            return -1;
+        }
+     }
+
+    hipDeviceSynchronize();
 
     // releases the host matrix memory	
     if (ha)
