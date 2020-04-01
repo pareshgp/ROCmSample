@@ -31,4 +31,4 @@ $(EXECUTABLE): $(OBJECTS)
 
 
 clean:
-	rm -f  *.out
+	rm -f  *.o

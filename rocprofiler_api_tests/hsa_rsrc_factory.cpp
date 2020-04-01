@@ -22,7 +22,7 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 POSSIBILITY OF SUCH DAMAGE.
 ********************************************************************/
 
-#include "util/hsa_rsrc_factory.h"
+#include "hsa_rsrc_factory.h"
 
 #include <dlfcn.h>
 #include <fcntl.h>
