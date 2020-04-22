@@ -3,6 +3,7 @@
 #include "hip/hip_runtime_api.h"
 #include <rocblas.h>
 #include <roctx.h>
+#include <chrono>
 
 rocblas_operation transa = rocblas_operation_none;
 rocblas_operation transb = rocblas_operation_transpose;
@@ -125,7 +126,6 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
-        std::cout << "hipMemcpyHostToDevice done 1" ;
     }
 
     if (db) {
@@ -134,7 +134,6 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
-        std::cout << "hipMemcpyHostToDevice done 2" ;
     }
 
     if (dc) {
@@ -143,13 +142,13 @@ int main() {
             std::cout << "hipMemcpyHostToDevice failed" ;
             return -1;
         }
-        std::cout << "hipMemcpyHostToDevice done 3" ;
     }
     roctxMark("after hipMemcpy");
     roctxRangePop();
 
     int numRepeats = 10;
     float alpha = 1.1, beta = 0.9;
+    auto start_time = std::chrono::system_clock::now();
     for (int i = 0; i < numRepeats; ++i) {	
         rocblas_status stat = rocblas_sgemm(blas_handle, transa, transb,
                  m, n, k,
@@ -163,6 +162,10 @@ int main() {
      }
 
     hipDeviceSynchronize();
+    auto end_time = std::chrono::system_clock::now();
+    std::chrono::duration<double> diff = end_time - start_time;
+    std::cout << "Time to execute " << numRepeats << " kernels "
+                   << diff.count() << " s\n";
 
     // releases the host matrix memory	
     if (ha)
