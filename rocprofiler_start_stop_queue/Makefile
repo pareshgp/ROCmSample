@@ -11,14 +11,14 @@ LIB=-L/opt/rocm/rocblas/lib -l rocblas -L/opt/rocm/rocprofiler/lib -l rocprofile
 #rocprofiler_start_stop: rocprofiler_start_stop.cpp
 #	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
 
-HIPCC=$(HIP_PATH)/bin/hipcc -DAMD_INTERNAL_BUILD -ldl
+HIPCC=$(HIP_PATH)/bin/hipcc -DAMD_INTERNAL_BUILD
 
-#TARGET=hcc
+TARGET=hcc
 
 SOURCES = hsa_rsrc_factory.cpp stand_intercept_test.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
-EXECUTABLE=./rocprofiler_start_stop
+EXECUTABLE=./rocprofiler_queue_call_start_stop
 
 all: clean $(EXECUTABLE)
 

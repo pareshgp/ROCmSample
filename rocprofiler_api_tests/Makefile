@@ -12,7 +12,7 @@ LIB=-L/opt/rocm/rocblas/lib -l rocblas -L/opt/rocm/rocprofiler/lib -l rocprofile
 #rocprofiler_start_stop: rocprofiler_start_stop.cpp
 #	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
 
-HIPCC=$(HIP_PATH)/bin/hipcc
+HIPCC=$(HIP_PATH)/bin/hipcc -DAMD_INTERNAL_BUILD
 
 TARGET=hcc
 
