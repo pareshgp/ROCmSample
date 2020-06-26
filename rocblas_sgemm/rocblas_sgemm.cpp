@@ -4,6 +4,7 @@
 #include <rocblas.h>
 #include <roctx.h>
 #include <chrono>
+#include <cstdlib>
 
 rocblas_operation transa = rocblas_operation_none;
 rocblas_operation transb = rocblas_operation_transpose;
@@ -15,7 +16,8 @@ float fast_pseudo_rand(u_long *nextr) {
 }
 
 
-int main() {
+int main(int argc, char **argv) {
+    
 
     // GPU device index, i is iterator
     int gpu_device_index, i;
@@ -54,7 +56,20 @@ int main() {
     rocblas_handle blas_handle;
     // TRUE is rocBlas handle was successfully initialized
     bool is_handle_init = false;
-
+    int numRepeats = 10;
+    if (argc > 1) {
+        if (!strcmp("-time", argv[1]))
+        {
+            if(argv[2]) {
+                if (atoi(argv[2]) < 11) 
+                    numRepeats  = 29 * atoi(argv[2]);
+                else
+                    numRepeats = 25 * atoi(argv[2]);
+            }
+        } else {
+            numRepeats = 10;
+        }
+    }
     m = n = k = 5760;
 	
     size_a = k * m;
@@ -146,7 +161,6 @@ int main() {
     roctxMark("after hipMemcpy");
     roctxRangePop();
 
-    int numRepeats = 10;
     float alpha = 1.1, beta = 0.9;
     auto start_time = std::chrono::system_clock::now();
     for (int i = 0; i < numRepeats; ++i) {	
