@@ -162,6 +162,7 @@ int main() {
             std::cout << "rocblas_sgemm failed" ;
             return -1;
         }
+	hipDeviceSynchronize();
      }
 
     uint64_t end_time = get_time_us();
