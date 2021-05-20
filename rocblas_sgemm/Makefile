@@ -7,7 +7,7 @@ HIP_PLATFORM=$(shell $(HIP_PATH)/bin/hipconfig --compiler)
 INC=-I$(HIP_PATH)/../rocblas/include -I$(HIP_PATH)/../roctracer/include/
 LIB=-L$(HIP_PATH)/../rocblas/lib -l rocblas -L$(HIP_PATH)/../roctracer/lib -l roctracer64 -l roctx64
 
-all: rocblas_sgemm perf_overhead rocblas_roctx pc_test
+all: rocblas_sgemm perf_overhead rocblas_roctx pc_test memcpy_val
 
 rocblas_sgemm: rocblas_sgemm.cpp
 	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
@@ -19,6 +19,9 @@ rocblas_roctx: small_kernel_roctx_perf_over.cpp
 	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
 
 pc_test: pc_test.cpp
+	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
+
+memcpy_val: memcpy_val.cpp
 	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
 clean:
 	rm -f  *.o
