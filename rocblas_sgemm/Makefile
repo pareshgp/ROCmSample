@@ -24,4 +24,4 @@ pc_test: pc_test.cpp
 memcpy_val: memcpy_val.cpp
 	$(HIPCC) $(HIPCC_FLAGS) $(INC) $(LIB) -g $< -o $@
 clean:
-	rm -f  *.o
+	rm -f  *.o rocblas_sgemm perf_overhead rocblas_roctx pc_test memcpy_val
