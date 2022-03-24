@@ -1,11 +1,11 @@
-HIP_PATH?= $(wildcard /opt/rocm/hip)
+HIP_PATH?= $(wildcard /opt/rocm)
 ifeq (,$(HIP_PATH))
 	HIP_PATH=../../..
 endif
 HIPCC=$(HIP_PATH)/bin/hipcc -std=c++11 
 HIP_PLATFORM=$(shell $(HIP_PATH)/bin/hipconfig --compiler)
-INC=-I$(HIP_PATH)/../rocblas/include -I$(HIP_PATH)/../roctracer/include/ -I$(HIP_PATH)/../include
-LIB=-L$(HIP_PATH)/../rocblas/lib -L$(HIP_PATH)/../lib -l rocblas -L$(HIP_PATH)/../roctracer/lib -l roctracer64 -l roctx64
+INC=-I$(HIP_PATH)/rocblas/include -I$(HIP_PATH)/roctracer/include/ -I$(HIP_PATH)/include
+LIB=-L$(HIP_PATH)/rocblas/lib -L$(HIP_PATH)/lib -l rocblas -L$(HIP_PATH)/roctracer/lib -l roctracer64 -l roctx64
 
 all: rocblas_sgemm perf_overhead rocblas_roctx pc_test memcpy_val
 
