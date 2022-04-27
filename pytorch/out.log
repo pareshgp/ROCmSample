@@ -1,0 +1,67 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                        model_inference         0.02%       3.304ms        76.32%       11.876s       11.876s       2.135ms         0.02%       11.876s       11.876s             1  
+                                           aten::linear         0.00%      68.000us        75.56%       11.757s       11.757s      68.000us         0.00%       11.756s       11.756s             1  
+                                            aten::addmm        75.56%       11.757s        75.56%       11.757s       11.757s       11.756s        98.93%       11.756s       11.756s             1  
+                                           aten::conv2d         0.00%     345.000us         0.53%      82.099ms       4.105ms     345.000us         0.00%      85.586ms       4.279ms            20  
+                                      aten::convolution         0.00%     476.000us         0.53%      81.754ms       4.088ms     391.000us         0.00%      85.241ms       4.262ms            20  
+                                     aten::_convolution         0.00%     435.000us         0.52%      81.278ms       4.064ms     377.000us         0.00%      84.850ms       4.242ms            20  
+                               aten::miopen_convolution         0.52%      80.188ms         0.52%      80.843ms       4.042ms      84.137ms         0.71%      84.473ms       4.224ms            20  
+                                            aten::relu_         0.00%     482.000us         0.08%      12.344ms     726.118us     299.000us         0.00%      11.863ms     697.824us            17  
+                                       aten::clamp_min_         0.00%     318.000us         0.08%      11.862ms     697.765us     288.000us         0.00%      11.564ms     680.235us            17  
+                                        aten::clamp_min         0.07%      11.544ms         0.07%      11.544ms     679.059us      11.276ms         0.09%      11.276ms     663.294us            17  
+                                       aten::batch_norm         0.00%     332.000us         0.06%       8.857ms     442.850us     339.000us         0.00%       7.326ms     366.300us            20  
+                                             aten::add_         0.05%       7.478ms         0.05%       7.478ms     267.071us       7.256ms         0.06%       7.256ms     259.143us            28  
+                           aten::_batch_norm_impl_index         0.00%     427.000us         0.05%       8.525ms     426.250us     577.000us         0.00%       6.987ms     349.350us            20  
+                                aten::miopen_batch_norm         0.04%       6.088ms         0.05%       7.767ms     388.350us       5.487ms         0.05%       6.240ms     312.000us            20  
+                              aten::adaptive_avg_pool2d         0.00%      27.000us         0.03%       4.022ms       4.022ms      17.000us         0.00%       4.629ms       4.629ms             1  
+                                             aten::mean         0.03%       3.995ms         0.03%       3.995ms       3.995ms       4.612ms         0.04%       4.612ms       4.612ms             1  
+                                   miopenSp3AsmConv3x3F         0.00%       0.000us         0.00%       0.000us       0.000us       2.184ms         0.02%       2.184ms     218.400us            10  
+                                       aten::max_pool2d         0.00%      30.000us         0.01%       1.229ms       1.229ms      30.000us         0.00%       1.314ms       1.314ms             1  
+                          aten::max_pool2d_with_indices         0.01%       1.199ms         0.01%       1.199ms       1.199ms       1.284ms         0.01%       1.284ms       1.284ms             1  
+             miopenSp3AsmConv_v21_1_3_gfx9_fp32_stride1         0.00%       0.000us         0.00%       0.000us       0.000us       1.231ms         0.01%       1.231ms     410.333us             3  
+igemm_fwd_gtcx_nchw_fp32_bx8_ex1_bt64x8x16_wt64x4x1_...         0.00%       0.000us         0.00%       0.000us       0.000us       1.064ms         0.01%       1.064ms     266.000us             4  
+                                            aten::empty         0.01%       1.774ms         0.01%       1.774ms      21.634us     787.000us         0.01%     787.000us       9.598us            82  
+             miopenSp3AsmConv_v21_1_3_gfx9_fp32_stride2         0.00%       0.000us         0.00%       0.000us       0.000us     445.000us         0.00%     445.000us     445.000us             1  
+                         MIOpenBatchNormFwdTrainSpatial         0.00%       0.000us         0.00%       0.000us       0.000us     421.000us         0.00%     421.000us      28.067us            15  
+                                          aten::resize_         0.00%     655.000us         0.00%     655.000us      16.375us     336.000us         0.00%     336.000us       8.400us            40  
+void at::native::modern::elementwise_kernel<at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us     278.000us         0.00%     278.000us      16.353us            17  
+igemm_fwd_gtcx_nhwc_fp32_bx0_ex1_bt256x64x4_wt64x16x...         0.00%       0.000us         0.00%       0.000us       0.000us     212.000us         0.00%     212.000us     212.000us             1  
+void at::native::legacy::elementwise_kernel<128, 4, ...         0.00%       0.000us         0.00%       0.000us       0.000us     169.000us         0.00%     169.000us       8.450us            20  
+                                             aten::view         0.00%     279.000us         0.00%     279.000us      13.950us     168.000us         0.00%     168.000us       8.400us            20  
+void at::native::modern::elementwise_kernel<at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us     115.000us         0.00%     115.000us      14.375us             8  
+void at::native::(anonymous namespace)::max_pool_for...         0.00%       0.000us         0.00%       0.000us       0.000us     102.000us         0.00%     102.000us     102.000us             1  
+igemm_fwd_gtcx_nchw_fp32_bx4_ex1_bt64x4x16_wt64x4x1_...         0.00%       0.000us         0.00%       0.000us       0.000us      91.000us         0.00%      91.000us      91.000us             1  
+                                            aten::zeros         0.00%      69.000us         0.00%     108.000us     108.000us      47.000us         0.00%      80.000us      80.000us             1  
+        MIOpenBatchNormFwdTrainSpatialFinalMeanVariance         0.00%       0.000us         0.00%       0.000us       0.000us      71.000us         0.00%      71.000us      14.200us             5  
+             MIOpenBatchNormFwdTrainSpatialMeanVariance         0.00%       0.000us         0.00%       0.000us       0.000us      70.000us         0.00%      70.000us      14.000us             5  
+                          batched_transpose_32x32_dword         0.00%       0.000us         0.00%       0.000us       0.000us      67.000us         0.00%      67.000us      67.000us             1  
+Cijk_Alik_Bljk_SB_MT64x32x32_MI16x16x4x1_SE_1LDSB0_A...         0.00%       0.000us         0.00%       0.000us       0.000us      58.000us         0.00%      58.000us      58.000us             1  
+                     MIOpenBatchNormFwdTrainSpatialNorm         0.00%       0.000us         0.00%       0.000us       0.000us      49.000us         0.00%      49.000us       9.800us             5  
+                                                aten::t         0.00%      23.000us         0.00%      51.000us      51.000us      17.000us         0.00%      41.000us      41.000us             1  
+                          batched_transpose_256x4_dword         0.00%       0.000us         0.00%       0.000us       0.000us      27.000us         0.00%      27.000us      27.000us             1  
+void at::native::reduce_kernel<512, 1, at::native::R...         0.00%       0.000us         0.00%       0.000us       0.000us      26.000us         0.00%      26.000us      26.000us             1  
+                                           aten::expand         0.00%      13.000us         0.00%      24.000us      24.000us      17.000us         0.00%      25.000us      25.000us             1  
+                                          aten::flatten         0.00%      48.000us         0.00%      77.000us      77.000us      16.000us         0.00%      24.000us      24.000us             1  
+                                        aten::transpose         0.00%      16.000us         0.00%      28.000us      28.000us      16.000us         0.00%      24.000us      24.000us             1  
+                                       aten::as_strided         0.00%      23.000us         0.00%      23.000us      11.500us      16.000us         0.00%      16.000us       8.000us             2  
+void at::native::legacy::elementwise_kernel<128, 4, ...         0.00%       0.000us         0.00%       0.000us       0.000us      14.000us         0.00%      14.000us      14.000us             1  
+                           batched_transpose_64x4_dword         0.00%       0.000us         0.00%       0.000us       0.000us      10.000us         0.00%      10.000us      10.000us             1  
+                                            aten::zero_         0.00%       8.000us         0.00%       8.000us       8.000us       9.000us         0.00%       9.000us       9.000us             1  
+                                   aten::_reshape_alias         0.00%      29.000us         0.00%      29.000us      29.000us       8.000us         0.00%       8.000us       8.000us             1  
+                                         hipEventCreate         0.00%     159.000us         0.00%     159.000us       0.211us       0.000us         0.00%       0.000us       0.000us           754  
+                                              hipMalloc         0.01%       1.101ms         0.01%       1.101ms      73.400us       0.000us         0.00%       0.000us       0.000us            15  
+                                                hipInit         0.00%       0.000us         0.00%       0.000us       0.000us       0.000us         0.00%       0.000us       0.000us             1  
+                                  hipDeviceGetAttribute         0.00%      58.000us         0.00%      58.000us       0.652us       0.000us         0.00%       0.000us       0.000us            89  
+                                          hipMemGetInfo         0.00%       1.000us         0.00%       1.000us       1.000us       0.000us         0.00%       0.000us       0.000us             1  
+                                          hipModuleLoad        23.50%        3.657s        23.50%        3.657s     261.179ms       0.000us         0.00%       0.000us       0.000us            14  
+                                                hipFree         0.00%      89.000us         0.00%      89.000us      89.000us       0.000us         0.00%       0.000us       0.000us             1  
+                               hipExtModuleLaunchKernel         0.00%     420.000us         0.00%     420.000us       7.778us       0.000us         0.00%       0.000us       0.000us            54  
+                                        hipLaunchKernel         0.16%      25.453ms         0.16%      25.453ms     530.271us       0.000us         0.00%       0.000us       0.000us            48  
+                                      hipGetDeviceCount         0.00%       0.000us         0.00%       0.000us       0.000us       0.000us         0.00%       0.000us       0.000us             1  
+                                   hipDeviceSynchronize         0.00%       3.000us         0.00%       3.000us       3.000us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 15.560s
+Self CUDA time total: 11.883s
+
